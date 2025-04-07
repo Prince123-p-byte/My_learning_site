@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>English Subject</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to English</h1>
+    <p>This page will later show lessons, discussions, and study topics.</p>
+
+    <!-- Discussion Section -->
+    <div class="discussion-section">
+      <h2>Discussions</h2>
+
+      <!-- New Discussion -->
+      <div class="new-discussion">
+        <textarea id="new-discussion-text" placeholder="Start a new discussion..." rows="4"></textarea>
+        <button class="submit-btn" onclick="postDiscussion()">Post Discussion</button>
+      </div>
+
+      <!-- Existing Discussions (will be dynamically populated) -->
+      <div id="discussions-container">
+        <!-- Discussions will appear here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/english.js"></script>
+</body>
+</html>

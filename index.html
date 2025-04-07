@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learning App - Home</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/learning_app/index.html">
+          <i class="fas fa-graduation-cap logo-icon"></i>
+          <span class="logo-text">Learning App</span>
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="/learning_app/index.html" class="active"><i class="fas fa-home"></i> Home</a>
+      </div>
+      <div class="auth-buttons">
+        <button id="login-btn" class="btn btn-outline">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        <button id="register-btn" class="btn btn-primary">
+          <i class="fas fa-user-plus"></i> Register
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Start Your Learning Journey</h1>
+      <p class="hero-subtitle">Select your education level to access personalized learning resources</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <section class="education-levels">
+      <h2 class="section-title">Choose Your Education Level</h2>
+      <div class="level-grid">
+        <a href="/learning_app/levels/early-childhood.html" class="level-card">
+          <div class="card-icon">
+            <i class="fas fa-child"></i>
+          </div>
+          <h3>Early Childhood</h3>
+          <p>Ages 3-6</p>
+          <span class="btn btn-primary">Explore</span>
+        </a>
+
+        <a href="/learning_app/levels/primary.html" class="level-card">
+          <div class="card-icon">
+            <i class="fas fa-pencil-alt"></i>
+          </div>
+          <h3>Primary</h3>
+          <p>Ages 6-12</p>
+          <span class="btn btn-primary">Explore</span>
+        </a>
+
+        <a href="/learning_app/levels/secondary.html" class="level-card">
+          <div class="card-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <h3>Secondary</h3>
+          <p>Ages 12-18</p>
+          <span class="btn btn-primary">Explore</span>
+        </a>
+
+        <a href="/learning_app/levels/university.html" class="level-card">
+          <div class="card-icon">
+            <i class="fas fa-university"></i>
+          </div>
+          <h3>University</h3>
+          <p>Higher Education</p>
+          <span class="btn btn-primary">Explore</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2 class="section-title">Why Choose Our Learning App?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-chalkboard-teacher feature-icon"></i>
+          <h3>Expert Content</h3>
+          <p>Created by educators and subject matter experts</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-laptop-code feature-icon"></i>
+          <h3>Interactive Learning</h3>
+          <p>Engaging activities and exercises</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-chart-line feature-icon"></i>
+          <h3>Track Progress</h3>
+          <p>Monitor your learning journey</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3>Learning App</h3>
+        <p>Empowering learners of all ages through quality education</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-newsletter">
+        <h3>Stay Updated</h3>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address">
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2023 Learning App. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div id="auth-form-container">
+        <!-- Form content will be loaded here by auth.js -->
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/auth.js"></script>
+  <script>
+    // Initialize modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('auth-modal');
+      const loginBtn = document.getElementById('login-btn');
+      const registerBtn = document.getElementById('register-btn');
+      const closeBtn = document.querySelector('.close-modal');
+
+      // Open modal for login
+      loginBtn.addEventListener('click', function() {
+        document.getElementById('auth-form-container').innerHTML = `
+          <h2>Login</h2>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+        `;
+        modal.style.display = 'block';
+      });
+
+      // Open modal for registration
+      registerBtn.addEventListener('click', function() {
+        document.getElementById('auth-form-container').innerHTML = `
+          <h2>Register</h2>
+          <form id="register-form">
+            <div class="form-group">
+              <label for="register-name">Full Name</label>
+              <input type="text" id="register-name" required>
+            </div>
+            <div class="form-group">
+              <label for="register-email">Email</label>
+              <input type="email" id="register-email" required>
+            </div>
+            <div class="form-group">
+              <label for="register-password">Password</label>
+              <input type="password" id="register-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+          </form>
+        `;
+        modal.style.display = 'block';
+      });
+
+      // Close modal
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+
+      // Close when clicking outside modal
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

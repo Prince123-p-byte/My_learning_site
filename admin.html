@@ -1,0 +1,46 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Admin Panel</h1>
+
+    <!-- Add New Subject Section -->
+    <div class="add-subject">
+      <h2>Add New Subject</h2>
+      <input type="text" id="new-subject-name" placeholder="Subject Name" />
+      <button id="add-subject-btn">Add Subject</button>
+    </div>
+
+    <hr>
+
+    <!-- Manage Subjects Section -->
+    <div class="manage-subjects">
+      <h2>Manage Subjects</h2>
+      <ul id="subject-list">
+        <!-- List of subjects will go here -->
+        <li class="subject-item">
+          <span>Math</span>
+          <button class="delete-subject-btn">Delete</button>
+        </li>
+        <li class="subject-item">
+          <span>Science</span>
+          <button class="delete-subject-btn">Delete</button>
+        </li>
+        <li class="subject-item">
+          <span>English</span>
+          <button class="delete-subject-btn">Delete</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

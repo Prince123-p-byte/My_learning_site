@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Early Childhood | Learning App</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+  <style>
+    /* Add Subject Card Styles */
+    #add-subject-card {
+      background-color: #f8f9fa;
+      border: 2px dashed #dee2e6;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    #add-subject-card:hover {
+      background-color: #e9ecef;
+      border-color: #adb5bd;
+      transform: scale(1.02);
+    }
+
+    #add-subject-card .card-icon {
+      color: #6c757d;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    #add-subject-card h3 {
+      color: #495057;
+      margin-bottom: 5px;
+    }
+
+    #add-subject-card p {
+      color: #6c757d;
+      margin-bottom: 15px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      width: 90%;
+      max-width: 500px;
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      position: relative;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.2s;
+    }
+    
+    .close-modal:hover {
+      color: #333;
+    }
+    
+    .modal-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .modal-form .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .modal-form .form-control:focus {
+      border-color: #4361ee;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+    
+    .modal-form .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 2rem;
+    }
+    
+    /* Color input styling */
+    input[type="color"] {
+      width: 60px;
+      height: 40px;
+      padding: 2px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    /* Help text */
+    .help-text {
+      font-size: 0.8rem;
+      color: #6c757d;
+      margin-top: 5px;
+      display: block;
+    }
+    
+    /* Icon preview */
+    #icon-preview {
+      font-size: 1.5rem;
+      margin-left: 10px;
+      vertical-align: middle;
+      color: #4361ee;
+    }
+
+    /* Delete button styles */
+    .subject-card {
+      position: relative;
+    }
+    
+    .delete-subject-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .subject-card:hover .delete-subject-btn {
+      opacity: 1;
+    }
+    
+    .delete-subject-btn:hover {
+      background: rgba(255, 0, 0, 1);
+    }
+      /* Edit button styles */
+  .edit-subject-btn {
+    position: absolute;
+    top: 10px;
+    right: 45px;
+    background: rgba(0, 123, 255, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .subject-card:hover .edit-subject-btn {
+    opacity: 1;
+  }
+  
+  .edit-subject-btn:hover {
+    background: rgba(0, 123, 255, 1);
+  }
+    /* Confirmation modal styles */
+    .confirmation-modal {
+      text-align: center;
+    }
+    
+    .confirmation-modal .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    /* Danger button */
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+      border: 1px solid #dc3545;
+    }
+
+    .btn-danger:hover {
+      background-color: #bb2d3b;
+      border-color: #b02a37;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../index.html">
+          <i class="fas fa-graduation-cap logo-icon"></i>
+          <span class="logo-text">Learning App</span>
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="early-childhood.html" class="active"><i class="fas fa-child"></i> Early Childhood</a>
+      </div>
+      <div class="auth-buttons">
+        <span id="user-greeting"></span>
+        <button id="logout-btn" class="btn btn-outline">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero hero-early-childhood">
+    <div class="hero-content">
+      <h1>Early Childhood Learning</h1>
+      <p class="hero-subtitle">Fun, interactive lessons designed for ages 3-6</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <section class="education-subjects">
+      <h2 class="section-title">Explore Subjects</h2>
+      <div class="subject-grid">
+        <!-- Default Subjects -->
+        <a href="subject-viewer.html?subject=math" class="subject-card">
+          <div class="card-icon">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <h3>Math</h3>
+          <p>Explore numbers, shapes, and basic arithmetic</p>
+          <span class="btn btn-primary">Start Learning</span>
+        </a>
+
+        <a href="subject-viewer.html?subject=science" class="subject-card">
+          <div class="card-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+          <h3>Science</h3>
+          <p>Discover nature, animals, and simple experiments</p>
+          <span class="btn btn-primary">Start Learning</span>
+        </a>
+
+        <a href="subject-viewer.html?subject=english" class="subject-card">
+          <div class="card-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3>English</h3>
+          <p>Learn letters, words, and basic reading skills</p>
+          <span class="btn btn-primary">Start Learning</span>
+        </a>
+
+        <!-- Add New Subject Card -->
+        <div class="subject-card" id="add-subject-card">
+          <div class="card-icon">
+            <i class="fas fa-plus"></i>
+          </div>
+          <h3>Add New Subject</h3>
+          <p>Create a custom learning subject</p>
+          <button class="btn btn-primary" id="add-subject-btn">Create</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="age-group-info">
+      <h2 class="section-title">About Our Early Childhood Program</h2>
+      <div class="info-content">
+        <div class="info-text">
+          <p>Our Early Childhood program is specially designed for children ages 3-6, focusing on foundational skills through interactive and engaging activities that make learning fun.</p>
+          <ul class="benefits-list">
+            <li><i class="fas fa-check-circle"></i> Play-based learning approach</li>
+            <li><i class="fas fa-check-circle"></i> Develops cognitive and motor skills</li>
+            <li><i class="fas fa-check-circle"></i> Encourages curiosity and creativity</li>
+            <li><i class="fas fa-check-circle"></i> Prepares for primary education</li>
+          </ul>
+          <a href="../about.html" class="btn btn-outline">Learn More About Our Approach</a>
+        </div>
+        <div class="info-image">
+          <img src="../assets/images/earlychild.jpg" alt="Happy children learning" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <h2 class="section-title">What Parents Say</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <i class="fas fa-quote-left quote-icon"></i>
+            <p>My daughter loves the colorful math games and can now count to 100!</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="../assets/images/parent1.jpg" alt="Sarah J." loading="lazy">
+            <div>
+              <h4>Sarah J.</h4>
+              <p>Parent of 5-year-old</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <i class="fas fa-quote-left quote-icon"></i>
+            <p>The science activities keep my son engaged for hours. He's always excited to learn!</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="../assets/images/parent2.jpg" alt="Michael T." loading="lazy">
+            <div>
+              <h4>Michael T.</h4>
+              <p>Parent of 4-year-old</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3>Learning App</h3>
+        <p>Empowering young minds through joyful learning experiences</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="../about.html">About Us</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../privacy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-newsletter">
+        <h3>Stay Updated</h3>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2023 Learning App. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- New Subject Modal -->
+  <div class="modal" id="new-subject-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Create New Subject</h3>
+      <form id="subject-form" class="modal-form">
+        <div class="form-group">
+          <label for="subject-name">Subject Name</label>
+          <input type="text" id="subject-name" class="form-control" required placeholder="e.g., Music, Art, Geography">
+        </div>
+        <div class="form-group">
+          <label for="subject-description">Description</label>
+          <textarea id="subject-description" class="form-control" rows="3" required placeholder="Brief description of what this subject covers"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="subject-icon">Icon 
+            <span id="icon-preview"></span>
+          </label>
+          <input type="text" id="subject-icon" class="form-control" required placeholder="fas fa-music" value="fas fa-star">
+          <span class="help-text">Enter a Font Awesome icon class (e.g., fas fa-music, fas fa-paint-brush)</span>
+        </div>
+        <div class="form-group">
+          <label for="subject-color">Theme Color</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="color" id="subject-color" class="form-control" value="#4361ee">
+            <span id="color-value">#4361ee</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject-thumbnail">Thumbnail Image (Optional)</label>
+          <input type="file" id="subject-thumbnail" class="form-control" accept="image/*">
+          <span class="help-text">Recommended size: 800x400 pixels</span>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-subject" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal" id="confirmation-modal">
+    <div class="modal-content confirmation-modal">
+      <h3>Delete Subject</h3>
+      <p>Are you sure you want to delete this subject? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="confirm-delete" class="btn btn-danger">Delete</button>
+        <button id="cancel-delete" class="btn btn-outline">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // User authentication
+      const currentUser = JSON.parse(localStorage.getItem('currentUser')) || { username: 'Guest' };
+      const greeting = document.getElementById('user-greeting');
+      
+      if (currentUser.username !== 'Guest') {
+        greeting.innerHTML = `<i class="fas fa-user"></i> Welcome, ${currentUser.username}!`;
+      } else {
+        document.getElementById('logout-btn').style.display = 'none';
+      }
+      
+      // Logout functionality
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        localStorage.removeItem('currentUser');
+        window.location.href = '../index.html';
+      });
+
+      // Load custom subjects
+      loadCustomSubjects();
+
+      // New Subject Modal Functionality
+      const newSubjectModal = document.getElementById('new-subject-modal');
+      const subjectForm = document.getElementById('subject-form');
+      
+      // Open modal
+      document.getElementById('add-subject-btn').addEventListener('click', function() {
+        newSubjectModal.classList.add('active');
+      });
+      
+      // Close modal
+      document.getElementById('cancel-subject').addEventListener('click', function() {
+        newSubjectModal.classList.remove('active');
+      });
+      
+      document.querySelector('.close-modal').addEventListener('click', function() {
+        newSubjectModal.classList.remove('active');
+      });
+      
+      // Icon preview
+      const iconInput = document.getElementById('subject-icon');
+      const iconPreview = document.getElementById('icon-preview');
+      
+      iconInput.addEventListener('input', function() {
+        iconPreview.className = this.value;
+      });
+      
+      // Initialize icon preview
+      iconPreview.className = iconInput.value;
+      
+      // Color value display
+      const colorInput = document.getElementById('subject-color');
+      const colorValue = document.getElementById('color-value');
+      
+      colorInput.addEventListener('input', function() {
+        colorValue.textContent = this.value;
+      });
+      
+      // Form submission
+      subjectForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const name = document.getElementById('subject-name').value.trim();
+        const description = document.getElementById('subject-description').value.trim();
+        const icon = document.getElementById('subject-icon').value.trim();
+        const color = document.getElementById('subject-color').value;
+        const thumbnailFile = document.getElementById('subject-thumbnail').files[0];
+        
+        // Validate icon
+        if (!icon.startsWith('fas fa-') && !icon.startsWith('fab fa-') && !icon.startsWith('far fa-')) {
+          alert('Icon must be a valid Font Awesome class starting with fas fa-, fab fa-, or far fa-');
+          return;
+        }
+        
+        // Create subject object
+        const newSubject = {
+          id: Date.now(),
+          name,
+          description,
+          icon,
+          color,
+          createdBy: currentUser.username,
+          date: new Date().toISOString()
+        };
+        
+        // Handle thumbnail if provided
+        if (thumbnailFile) {
+          newSubject.thumbnail = URL.createObjectURL(thumbnailFile);
+        } else {
+          // Default thumbnail
+          newSubject.thumbnail = 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+        }
+        
+        // Save to localStorage
+        let customSubjects = JSON.parse(localStorage.getItem('customSubjects')) || [];
+        customSubjects.push(newSubject);
+        localStorage.setItem('customSubjects', JSON.stringify(customSubjects));
+        
+        // Add to the subject grid
+        addSubjectToGrid(newSubject);
+        
+        // Reset form and close modal
+        subjectForm.reset();
+        newSubjectModal.classList.remove('active');
+        
+        // Show success message
+        showNotification(`"${name}" subject created successfully!`);
+      });
+      
+      // Function to load custom subjects
+      function loadCustomSubjects() {
+        const customSubjects = JSON.parse(localStorage.getItem('customSubjects')) || [];
+        const subjectGrid = document.querySelector('.subject-grid');
+        
+        customSubjects.forEach(subject => {
+          addSubjectToGrid(subject);
+        });
+      }
+      
+      // Function to add a subject to the grid
+      function addSubjectToGrid(subject) {
+        const subjectGrid = document.querySelector('.subject-grid');
+        const addSubjectCard = document.getElementById('add-subject-card');
+        
+        const subjectCard = document.createElement('a');
+        subjectCard.href = `subject-viewer.html?subject=${subject.id}`;
+        subjectCard.className = 'subject-card';
+        subjectCard.innerHTML = `
+          <div class="card-icon">
+            <i class="${subject.icon}"></i>
+          </div>
+          <h3>${subject.name}</h3>
+          <p>${subject.description}</p>
+          <span class="btn btn-primary">Start Learning</span>
+        `;
+        
+        // Add delete button only for custom subjects
+        addDeleteButton(subjectCard, subject.id);
+        
+        // Insert before the "Add Subject" card
+        subjectGrid.insertBefore(subjectCard, addSubjectCard);
+      }
+      
+      // Delete Subject Functionality
+      let subjectToDelete = null;
+
+      // Function to add delete button to custom subjects
+      function addDeleteButton(subjectCard, subjectId) {
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-subject-btn';
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          subjectToDelete = subjectId;
+          document.getElementById('confirmation-modal').classList.add('active');
+        };
+        subjectCard.appendChild(deleteBtn);
+      }
+
+      // Confirmation modal handlers
+      document.getElementById('confirm-delete').addEventListener('click', function() {
+        if (subjectToDelete) {
+          deleteSubject(subjectToDelete);
+          subjectToDelete = null;
+        }
+        document.getElementById('confirmation-modal').classList.remove('active');
+      });
+
+      document.getElementById('cancel-delete').addEventListener('click', function() {
+        subjectToDelete = null;
+        document.getElementById('confirmation-modal').classList.remove('active');
+      });
+
+      // Function to delete a subject
+      function deleteSubject(subjectId) {
+        let customSubjects = JSON.parse(localStorage.getItem('customSubjects')) || [];
+        
+        // Find the subject to get its name for the notification
+        const subjectToDelete = customSubjects.find(subject => subject.id === subjectId);
+        const subjectName = subjectToDelete ? subjectToDelete.name : 'Subject';
+        
+        // Filter out the deleted subject
+        customSubjects = customSubjects.filter(subject => subject.id !== subjectId);
+        localStorage.setItem('customSubjects', JSON.stringify(customSubjects));
+        
+        // Remove from DOM
+        const subjectCard = document.querySelector(`a[href="subject-viewer.html?subject=${subjectId}"]`);
+        if (subjectCard) {
+          subjectCard.remove();
+        }
+        
+        showNotification(`"${subjectName}" deleted successfully`);
+      }
+      // Edit Subject Functionality
+function addEditButton(subjectCard, subject) {
+  const editBtn = document.createElement('button');
+  editBtn.className = 'edit-subject-btn';
+  editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+  editBtn.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    openEditModal(subject);
+  };
+  subjectCard.appendChild(editBtn);
+}
+
+function openEditModal(subject) {
+  document.getElementById('subject-name').value = subject.name;
+  document.getElementById('subject-description').value = subject.description;
+  document.getElementById('subject-icon').value = subject.icon;
+  document.getElementById('subject-color').value = subject.color;
+  document.getElementById('color-value').textContent = subject.color;
+  document.getElementById('icon-preview').className = subject.icon;
+  
+  // Change modal title and button
+  document.querySelector('#new-subject-modal h3').textContent = 'Edit Subject';
+  document.querySelector('#subject-form button[type="submit"]').textContent = 'Update Subject';
+  
+  // Store the subject ID being edited
+  document.getElementById('subject-form').dataset.editingId = subject.id;
+  
+  // Open modal
+  document.getElementById('new-subject-modal').classList.add('active');
+}
+
+// Update the form submission handler
+subjectForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Get form data
+  const name = document.getElementById('subject-name').value.trim();
+  const description = document.getElementById('subject-description').value.trim();
+  const icon = document.getElementById('subject-icon').value.trim();
+  const color = document.getElementById('subject-color').value;
+  const thumbnailFile = document.getElementById('subject-thumbnail').files[0];
+  const isEditing = this.dataset.editingId;
+  
+  // Validate icon
+  if (!icon.startsWith('fas fa-') && !icon.startsWith('fab fa-') && !icon.startsWith('far fa-')) {
+    alert('Icon must be a valid Font Awesome class starting with fas fa-, fab fa-, or far fa-');
+    return;
+  }
+  
+  let customSubjects = JSON.parse(localStorage.getItem('customSubjects')) || [];
+  
+  if (isEditing) {
+    // Update existing subject
+    const subjectIndex = customSubjects.findIndex(s => s.id == isEditing);
+    if (subjectIndex !== -1) {
+      customSubjects[subjectIndex] = {
+        ...customSubjects[subjectIndex],
+        name,
+        description,
+        icon,
+        color
+      };
+      
+      if (thumbnailFile) {
+        customSubjects[subjectIndex].thumbnail = URL.createObjectURL(thumbnailFile);
+      }
+      
+      localStorage.setItem('customSubjects', JSON.stringify(customSubjects));
+      
+      // Update the DOM
+      const subjectCard = document.querySelector(`a[href="subject-viewer.html?subject=${isEditing}"]`);
+      if (subjectCard) {
+        subjectCard.querySelector('h3').textContent = name;
+        subjectCard.querySelector('p').textContent = description;
+        subjectCard.querySelector('.card-icon i').className = icon;
+      }
+      
+      showNotification(`"${name}" subject updated successfully!`);
+    }
+  } else {
+    // Create new subject
+    const newSubject = {
+      id: Date.now(),
+      name,
+      description,
+      icon,
+      color,
+      createdBy: currentUser.username,
+      date: new Date().toISOString()
+    };
+    
+    if (thumbnailFile) {
+      newSubject.thumbnail = URL.createObjectURL(thumbnailFile);
+    } else {
+      newSubject.thumbnail = 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+    }
+    
+    customSubjects.push(newSubject);
+    localStorage.setItem('customSubjects', JSON.stringify(customSubjects));
+    addSubjectToGrid(newSubject);
+    showNotification(`"${name}" subject created successfully!`);
+  }
+  
+  // Reset form and close modal
+  subjectForm.reset();
+  delete subjectForm.dataset.editingId;
+  document.querySelector('#new-subject-modal h3').textContent = 'Create New Subject';
+  document.querySelector('#subject-form button[type="submit"]').textContent = 'Create Subject';
+  document.getElementById('new-subject-modal').classList.remove('active');
+});
+
+// Update the addSubjectToGrid function to include edit button
+function addSubjectToGrid(subject) {
+  const subjectGrid = document.querySelector('.subject-grid');
+  const addSubjectCard = document.getElementById('add-subject-card');
+  
+  const subjectCard = document.createElement('a');
+  subjectCard.href = `subject-viewer.html?subject=${subject.id}`;
+  subjectCard.className = 'subject-card';
+  subjectCard.innerHTML = `
+    <div class="card-icon">
+      <i class="${subject.icon}"></i>
+    </div>
+    <h3>${subject.name}</h3>
+    <p>${subject.description}</p>
+    <span class="btn btn-primary">Start Learning</span>
+  `;
+  
+  // Add edit and delete buttons for custom subjects
+  addEditButton(subjectCard, subject);
+  addDeleteButton(subjectCard, subject.id);
+  
+  subjectGrid.insertBefore(subjectCard, addSubjectCard);
+}
+      // Function to show notification
+      function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = '#4361ee';
+        notification.style.color = 'white';
+        notification.style.padding = '15px 20px';
+        notification.style.borderRadius = '5px';
+        notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+        notification.style.zIndex = '1000';
+        notification.style.animation = 'slideIn 0.3s ease-out';
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.3s ease-in';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 300);
+        }, 3000);
+      }
+      
+      // Add animation styles
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>

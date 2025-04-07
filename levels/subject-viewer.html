@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject Viewer | Learning App</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/subjects/math.css">
+  <link rel="stylesheet" href="../css/subjects/subject-viewer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+  <style></style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../index.html">
+          <i class="fas fa-graduation-cap logo-icon"></i>
+          <span class="logo-text">Learning App</span>
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="../levels/early-childhood.html"><i class="fas fa-child"></i> Early Childhood</a>
+        <a href="#" id="current-subject-link" class="active"><i id="subject-icon"></i> <span id="subject-name"></span></a>
+      </div>
+      <div class="auth-buttons">
+        <span id="user-greeting"></span>
+        <button id="logout-btn" class="btn btn-outline">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="subject-hero">
+    <div class="hero-content">
+      <h1 id="subject-title">Subject</h1>
+      <p class="hero-subtitle" id="subject-description"></p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="lessons">Lessons</button>
+      <button class="tab-btn" data-tab="exercises">Exercises</button>
+      <button class="tab-btn" data-tab="discussions">Discussions</button>
+      <button class="tab-btn" data-tab="resources">Resources</button>
+      <button class="tab-btn" data-tab="results">Results</button>
+    </div>
+    
+    <!-- Lessons Tab -->
+    <div id="lessons-tab" class="tab-content active">
+      <button id="new-lesson-btn" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> New Lesson
+      </button>
+      
+      <div id="lessons-list">
+        <!-- Lessons will be loaded here -->
+      </div>
+    </div>
+    
+    <!-- Exercises Tab -->
+    <div id="exercises-tab" class="tab-content">
+      <button id="new-exercise-btn" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> New Exercise
+      </button>
+      
+      <div id="exercises-list">
+        <!-- Exercises will be loaded here -->
+      </div>
+    </div>
+    
+    <!-- Discussions Tab -->
+    <div id="discussions-tab" class="tab-content">
+      <button id="new-discussion-btn" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> New Discussion
+      </button>
+      
+      <div id="discussions-list">
+        <!-- Discussions will be loaded here -->
+      </div>
+    </div>
+    
+    <!-- Resources Tab -->
+    <div id="resources-tab" class="tab-content">
+      <div class="content-card">
+        <h3>All Learning Resources</h3>
+        <p>Browse all uploaded materials from lessons and exercises</p>
+        
+        <div id="resources-list">
+          <!-- Resources will be loaded here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Updated Results Tab -->
+  <div id="results-tab" class="tab-content">
+    <div class="content-card">
+      <h3>Your Exercise Results</h3>
+      <div id="results-list">
+        <div class="empty-state">
+          <i class="fas fa-chart-line"></i>
+          <h3>No Results Yet</h3>
+          <p>Submit exercises to see your results here</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- New Lesson Modal -->
+  <div class="modal" id="new-lesson-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Create New Lesson</h3>
+      <form id="lesson-form" class="modal-form">
+        <div class="form-group">
+          <label for="lesson-title">Lesson Title</label>
+          <input type="text" id="lesson-title" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="lesson-description">Description</label>
+          <textarea id="lesson-description" class="form-control" rows="6" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="lesson-thumbnail">Thumbnail Image</label>
+          <input type="file" id="lesson-thumbnail" class="form-control" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="lesson-files">Upload Materials</label>
+          <input type="file" id="lesson-files" class="form-control" multiple>
+          <small class="text-muted">You can upload PDFs, videos, audio files, or images</small>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-lesson" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Lesson</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Exercise Modal -->
+  <div class="modal" id="new-exercise-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Create New Exercise</h3>
+      <form id="exercise-form" class="modal-form">
+        <div class="form-group">
+          <label for="exercise-title">Exercise Title</label>
+          <input type="text" id="exercise-title" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="exercise-description">Description</label>
+          <textarea id="exercise-description" class="form-control" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="exercise-difficulty">Difficulty</label>
+          <select id="exercise-difficulty" class="form-control" required>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exercise-files">Upload Materials</label>
+          <input type="file" id="exercise-files" class="form-control" multiple>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-exercise" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Exercise</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Discussion Modal -->
+  <div class="modal" id="new-discussion-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Start New Discussion</h3>
+      <form id="discussion-form" class="modal-form">
+        <div class="form-group">
+          <label for="discussion-title">Discussion Title</label>
+          <input type="text" id="discussion-title" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="discussion-content">Content</label>
+          <textarea id="discussion-content" class="form-control" rows="6" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="discussion-tags">Tags (comma separated)</label>
+          <input type="text" id="discussion-tags" class="form-control" placeholder="algebra, geometry, problem-solving">
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-discussion" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Post Discussion</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Media Modal -->
+  <div class="modal" id="media-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div id="media-player"></div>
+    </div>
+  </div>
+
+  <!-- Edit Lesson Modal -->
+  <div class="modal" id="edit-lesson-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Edit Lesson</h3>
+      <form id="edit-lesson-form" class="modal-form">
+        <input type="hidden" id="edit-lesson-id">
+        <div class="form-group">
+          <label for="edit-lesson-title">Lesson Title</label>
+          <input type="text" id="edit-lesson-title" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="edit-lesson-description">Description</label>
+          <textarea id="edit-lesson-description" class="form-control" rows="6" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Current Thumbnail</label>
+          <img id="current-thumbnail" src="" style="max-width: 100%; height: auto; display: block; margin-bottom: 10px;">
+          <label for="edit-lesson-thumbnail">Change Thumbnail</label>
+          <input type="file" id="edit-lesson-thumbnail" class="form-control" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label>Current Resources</label>
+          <div id="current-resources" class="resource-list"></div>
+          <label for="edit-lesson-files">Add More Materials</label>
+          <input type="file" id="edit-lesson-files" class="form-control" multiple>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-edit" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+  <!-- Updated Submission Modal -->
+  <div class="modal" id="submission-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Submit Exercise</h3>
+      <form id="submission-form" class="modal-form">
+        <input type="hidden" id="submission-exercise-id">
+        <div class="form-group">
+          <label for="submission-files">Upload Your Work</label>
+          <input type="file" id="submission-files" class="form-control" multiple required>
+          <small>Accepted formats: PDF, JPG, PNG, DOCX, MP4 (max 10MB each)</small>
+        </div>
+        <div class="form-group">
+          <label for="submission-notes">Notes (Optional)</label>
+          <textarea id="submission-notes" class="form-control" rows="3" placeholder="Add any additional comments about your submission..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-submission" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+   <!-- Enhanced Grade Modal -->
+   <div class="modal" id="grade-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Grade Submission</h3>
+      <form id="grade-form" class="modal-form">
+        <input type="hidden" id="grade-submission-id">
+        <div class="form-group">
+          <label for="grade-score">Score (0-100)</label>
+          <input type="number" id="grade-score" class="form-control" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+          <label for="grade-letter">Letter Grade</label>
+          <select id="grade-letter" class="form-control" required>
+            <option value="">Select Grade</option>
+            <option value="A">A (90-100)</option>
+            <option value="B">B (80-89)</option>
+            <option value="C">C (70-79)</option>
+            <option value="D">D (60-69)</option>
+            <option value="F">F (0-59)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="grade-feedback">Detailed Feedback</label>
+          <textarea id="grade-feedback" class="form-control" rows="6" required placeholder="Provide constructive feedback..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="grade-file">Upload Graded File (Optional)</label>
+          <input type="file" id="grade-file" class="form-control">
+          <small>You can upload annotated files or additional feedback</small>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-grade" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Grade</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- View Submission Modal -->
+  <div class="modal" id="view-submission-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3 id="view-submission-title">Submission Details</h3>
+      <div id="view-submission-content">
+        <!-- Dynamic content will be loaded here -->
+      </div>
+      <div id="grade-display" class="mt-3">
+        <!-- Grade information will be shown here -->
+      </div>
+      <div class="form-actions mt-3">
+        <button type="button" id="close-view-submission" class="btn btn-outline">Close</button>
+        <button type="button" id="edit-grade-btn" class="btn btn-primary" style="display: none;">
+          <i class="fas fa-edit"></i> Edit Grade
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Dialog -->
+  <div class="modal" id="confirm-dialog">
+    <div class="modal-content" style="max-width: 500px;">
+      <h4 id="dialog-message">Are you sure you want to delete this item?</h4>
+      <div class="dialog-buttons">
+        <button id="dialog-cancel" class="btn btn-outline">Cancel</button>
+        <button id="dialog-confirm" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+<script src="../js/subject-template.js"></script>
+</body>
+</html>

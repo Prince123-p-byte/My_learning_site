@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Primary | Learning App</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="../index.html">
+          <i class="fas fa-graduation-cap logo-icon"></i>
+          <span class="logo-text">Learning App</span>
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="primary.html" class="active"><i class="fas fa-pencil-alt"></i> Primary</a>
+      </div>
+      <div class="auth-buttons">
+        <span id="user-greeting"></span>
+        <button id="logout-btn" class="btn btn-outline">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero hero-early-childhood">
+    <div class="hero-content">
+      <h1>Primary</h1>
+      <p class="hero-subtitle">Interactive lessons designed for ages 7-12</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <section class="education-subjects">
+      <h2 class="section-title">Explore Subjects</h2>
+      <div class="subject-grid">
+        <a href="../subjects/math.html" class="subject-card">
+          <div class="card-icon">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <h3>Math</h3>
+          <p>Explore numbers, shapes, and basic arithmetic</p>
+          <span class="btn btn-primary">Start Learning</span>
+        </a>
+
+        <a href="../subjects/science.html" class="subject-card">
+          <div class="card-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+          <h3>Science</h3>
+          <p>Discover nature, animals, and simple experiments</p>
+          <span class="btn btn-primary">Start Learning</span>
+        </a>
+
+        <a href="../subjects/english.html" class="subject-card">
+          <div class="card-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3>English</h3>
+          <p>Learn grammar, essays, and basic reading skills</p>
+          <span class="btn btn-primary">Start Learning</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="age-group-info">
+      <h2 class="section-title">About Our Primary school Program</h2>
+      <div class="info-content">
+        <div class="info-text">
+          <p>Our Primary program is specially designed for children ages 7-12, focusing on foundational skills through interactive and engaging activities that make learning fun.</p>
+          <ul class="benefits-list">
+            <li><i class="fas fa-check-circle"></i> Play-based learning approach</li>
+            <li><i class="fas fa-check-circle"></i> Develops cognitive and motor skills</li>
+            <li><i class="fas fa-check-circle"></i> Encourages curiosity and creativity</li>
+            <li><i class="fas fa-check-circle"></i> Prepares for primary education</li>
+          </ul>
+          <a href="../about.html" class="btn btn-outline">Learn More About Our Approach</a>
+        </div>
+        <div class="info-image">
+          <img src="../assets/images/early-childhood.svg" alt="Happy children learning" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <h2 class="section-title">What Parents Say</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <i class="fas fa-quote-left quote-icon"></i>
+            <p>My son can now write compositions on his own!</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="../assets/images/parent1.jpg" alt="Sarah J." loading="lazy">
+            <div>
+              <h4>Sarah J.</h4>
+              <p>Parent of 11-year-old</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <i class="fas fa-quote-left quote-icon"></i>
+            <p>The science activities keep my son engaged for hours. He's always excited to learn!</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="../assets/images/parent2.jpg" alt="Michael T." loading="lazy">
+            <div>
+              <h4>Michael T.</h4>
+              <p>Parent of 7-year-old</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3>Learning App</h3>
+        <p>Empowering young minds through joyful learning experiences</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="../about.html">About Us</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../privacy.html">Privacy Policy</a></li>
+          <li><a href="../terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-newsletter">
+        <h3>Stay Updated</h3>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Learning App. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/auth.js"></script>
+  <script>
+    // Update user greeting on load
+    document.addEventListener('DOMContentLoaded', function() {
+      const user = JSON.parse(localStorage.getItem('currentUser')) || { username: 'Guest' };
+      const greeting = document.getElementById('user-greeting');
+      
+      if (user.username !== 'Guest') {
+        greeting.innerHTML = `<i class="fas fa-user"></i> Welcome, ${user.username}!`;
+      } else {
+        document.getElementById('logout-btn').style.display = 'none';
+      }
+    });
+    
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      localStorage.removeItem('currentUser');
+      window.location.href = '../index.html';
+    });
+  </script>
+</body>
+</html>

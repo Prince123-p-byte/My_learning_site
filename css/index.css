@@ -1,0 +1,168 @@
+/* ====== HERO SECTION ====== */
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-xxl) 0;
+    color: var(--white);
+    text-align: center;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    z-index: -1;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero h1 {
+    color: var(--white);
+    margin-bottom: var(--space-md);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: var(--space-lg);
+    color: rgba(255,255,255,0.9);
+  }
+  
+  /* ====== EDUCATION LEVEL CARDS ====== */
+  .level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+  
+  .level-card {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  .level-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gradient-primary);
+  }
+  
+  .level-card h3 {
+    margin-bottom: var(--space-xs);
+  }
+  
+  .level-card p {
+    margin-bottom: var(--space-lg);
+    color: var(--gray-color);
+  }
+  
+  /* ====== FEATURES SECTION ====== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+  
+  .feature-card {
+    text-align: center;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+  }
+  
+  .feature-card h3 {
+    margin-bottom: var(--space-sm);
+  }
+  /* ====== HERO SECTION ====== */
+.hero {
+    position: relative;
+    padding: var(--space-xxl) 0;
+    color: white;
+    text-align: center;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    z-index: -1;
+  }
+  
+  /* ====== LEVEL CARDS ====== */
+  .level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+  
+  .level-card {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .level-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gradient-primary);
+  }
+  
+  /* ====== FEATURES SECTION ====== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .feature-card {
+    text-align: center;
+    padding: var(--space-lg);
+  }
+  
+  /* Card Icon Styles */
+  .card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(67, 97, 238, 0.1);
+    border-radius: 50%;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 480px) {
+    .btn {
+      width: 100%;
+    }
+  }
